@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Newsletter from '../components/Newsletter.astro';
+import Icon from '../components/Icon.astro';
+
+const content: Record<string, { title: string; eyebrow: string; paragraphs: string[] }> = {
+  about: { title: 'Your world. One panel at a time.', eyebrow: 'HEY, WE’RE PANELRAID', paragraphs: [
+    'Some of the best conversations start with “Have you watched this yet?” Panelraid is a home for those conversations: the anime you can’t stop thinking about, the manga you stayed up too late reading, and the game you keep coming back to.',
+    'We’re building a place for curious fans. Expect thoughtful stories, approachable reviews, and recommendations that help you find your next favorite.',
+    'This is the demo edition of Panelraid. Article headlines, authors, reviews, and scores are fictional samples created to show the experience. Anime titles and promotional artwork belong to their respective owners.',
+  ] },
+  editorial: { title: 'Curious minds. Honest opinions.', eyebrow: 'OUR EDITORIAL APPROACH', paragraphs: [
+    'Panelraid is designed around clear reporting, thoughtful criticism, and a shared love of storytelling. Reviews should explain what works, what doesn’t, and who a story might connect with.',
+    'For the live publication, reporting should link to original announcements, distinguish confirmed details from speculation, and carry clear publication dates and bylines. Substantial corrections should be acknowledged on the affected story.',
+    'Affiliate relationships should be disclosed where recommendations appear. A commercial relationship should never determine a review score.',
+    'The current edition is a demonstration. Its stories and review scores are illustrative and should not be treated as factual reporting.',
+  ] },
+  'affiliate-disclosure': { title: 'A word about our links.', eyebrow: 'AFFILIATE DISCLOSURE', paragraphs: [
+    'The Loot is a space for curated recommendations. On the live site, some product links may be affiliate links. If you make a purchase through one of those links, Panelraid may receive a commission at no additional cost to you.',
+    'Affiliate links are identified in the recommendation area. Product availability and prices can change; the retailer’s page has the current details.',
+    'There are no live affiliate offers in this demo. The current sample recommendation links to an editorial reading guide.',
+  ] },
+  privacy: { title: 'A little clarity on privacy.', eyebrow: 'DEMO PRIVACY NOTICE', paragraphs: [
+    'Panelraid’s demo does not use advertising trackers or analytics. Saving a story stores a preference in your browser’s local storage. You can remove it with the Save story button or clear this site’s browser storage.',
+    'Search runs in your browser against the site’s published article list. Search terms are not submitted to a search service.',
+    'The newsletter form is prepared for Netlify Forms. Once deployed with form detection enabled, submitting your email sends it to the site operator through Netlify. This preview does not connect a mailing service or send a newsletter.',
+    'Production newsletter operations, retention periods, service providers, and a contact address need to be documented by the site operator before collecting subscribers. This demo notice is not a finalized production privacy policy.',
+  ] },
+  newsletter: { title: 'Your next favorite, delivered.', eyebrow: 'THE WEEKLY RAID', paragraphs: [
+    'A thoughtful little roundup of anime, manga, and the stories worth sharing. Join us for new discoveries, good reads, and a little fandom in your inbox.',
+  ] },
+};
+export function getStaticPaths() { return ['about', 'editorial', 'affiliate-disclosure', 'privacy', 'newsletter'].map(page => ({ params: { page } })); }
+const page = Astro.params.page!;
+const { title, eyebrow, paragraphs } = content[page];
+---
+<BaseLayout title={`${page === 'about' ? 'About Panelraid' : title} | Panelraid`} description={paragraphs[0]}><div class="info-page"><span class="eyebrow">{eyebrow}</span><h1>{title}</h1><div class="prose">{paragraphs.map(p => <p>{p}</p>)}</div>{page === 'newsletter' ? <Newsletter /> : <a href="/" class="button-primary">Explore the latest stories <Icon name="right" size={17} /></a>}</div></BaseLayout>

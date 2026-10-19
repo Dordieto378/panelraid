@@ -1,0 +1,60 @@
+---
+import '@fontsource-variable/dm-sans';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/barlow-condensed/800.css';
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import Icon from '../components/Icon.astro';
+import Navigation from '../components/Navigation';
+import { getArticles, usingSampleContent } from '../lib/content';
+
+interface Props { title?: string; description?: string; image?: string; active?: string; noindex?: boolean; article?: { publishedAt: string; author: string }; }
+const {
+  title = 'Panelraid — Your daily dose of anime, manga & more',
+  description = 'Find your next obsession with Panelraid. Fresh anime news, thoughtful manga reviews, gaming stories, and curated finds from the worlds you love.',
+  image, active = '', noindex = false, article,
+} = Astro.props;
+const articles = await getArticles();
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image || articles[0]?.image || '/images/frieren.webp', Astro.site);
+const year = new Date().getFullYear();
+const shouldNoindex = noindex || usingSampleContent;
+const trending = articles.filter((a, i, list) => list.findIndex(b => b.topic === a.topic) === i && a.topic).slice(0, 5);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#153d76" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {shouldNoindex && <meta name="robots" content="noindex, follow" />}
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:site_name" content="Panelraid" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {article && <><meta property="article:published_time" content={article.publishedAt} /><meta property="article:author" content={article.author} /></>}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="Panelraid RSS" href="/rss.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: 'Panelraid', url: Astro.site, logo: new URL('/favicon.svg', Astro.site) }).replace(/</g, '\\u003c')} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="utility-bar"><div class="container utility-inner"><span><i></i> A LITTLE FANDOM. A LOT OF GOOD STORIES.</span><div><a href="/about/">About Panelraid <Icon name="arrow" size={11} /></a><span class="utility-divider"></span><a href="/rss.xml" aria-label="Panelraid RSS feed"><Icon name="rss" size={13} /><span>RSS</span></a></div></div></div>
+    <header class="site-header"><div class="container header-inner"><Logo /><Navigation client:load articles={articles.map(({ title, slug, category, image }) => ({ title, slug, category, image }))} active={active} /></div></header>
+    <div class="trending-strip"><div class="container trending-inner"><span class="trending-label"><Icon name="bolt" size={15} /> TRENDING NOW</span><div class="trending-topics">{trending.length ? trending.map(article => <a href={`/articles/${article.slug}/`}>{article.topic}<span>↗</span></a>) : <><a href="/category/anime/">Anime <span>↗</span></a><a href="/category/manga/">Manga <span>↗</span></a><a href="/category/gaming/">Gaming <span>↗</span></a></>}</div><span class="trending-end">Your world. One panel at a time.</span></div></div>
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer"><div class="container"><div class="footer-main"><div class="footer-brand"><Logo light /><p>Your world. One panel at a time.<br />Anime, manga, and everything in between.</p><a href="/newsletter/" class="footer-newsletter">Join The Weekly Raid <Icon name="arrow" size={16} /></a></div><div><h2>EXPLORE</h2><a href="/news/">Latest news</a><a href="/category/anime/">Anime</a><a href="/category/manga/">Manga</a><a href="/category/gaming/">Gaming</a></div><div><h2>DISCOVER</h2><a href="/category/reviews/">Reviews</a><a href="/category/culture/">Culture</a><a href="/the-loot/">The Loot</a><a href="/rss.xml">RSS feed</a></div><div><h2>PANELRAID</h2><a href="/about/">About us</a><a href="/editorial/">Editorial approach</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy policy</a></div></div><div class="footer-bottom"><span>© {year} Panelraid. Made for the fandom.</span><span>{usingSampleContent ? 'Demo edition · Fictional stories · Artwork belongs to its respective owners.' : 'Independent voices. Shared obsessions.'}</span><a href="#main-content">Back to top ↑</a></div></div></footer>
+  </body>
+</html>

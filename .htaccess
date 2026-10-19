@@ -1,0 +1,15 @@
+# Laragon serves the project root. Keep public URLs at / while serving Astro's build.
+Options -Indexes
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# Keep Apache's directory redirects from exposing the internal dist path.
+RewriteCond %{REQUEST_URI} !^/dist(?:/|$)
+RewriteCond %{DOCUMENT_ROOT}/dist/$1 -d
+RewriteRule ^(.+[^/])$ /$1/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} !^/dist(?:/|$)
+RewriteRule ^(.*)$ dist/$1 [L]
+
+ErrorDocument 404 /dist/404.html

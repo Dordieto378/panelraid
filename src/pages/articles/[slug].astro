@@ -1,0 +1,37 @@
+---
+import EditorialBody from '../../components/EditorialBody';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import ArticleCard from '../../components/ArticleCard';
+import ArticleTools from '../../components/ArticleTools';
+import { getArticles, usingSampleContent } from '../../lib/content';
+import type { Article } from '../../lib/types';
+
+export async function getStaticPaths() {
+  return (await getArticles()).map(article => ({ params: { slug: article.slug }, props: { article } }));
+}
+interface Props { article: Article }
+const { article } = Astro.props;
+const articles = await getArticles();
+const related = articles.filter(a => a.id !== article.id && a.category === article.category).slice(0, 3);
+const date = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Europe/Amsterdam' }).format(new Date(article.publishedAt));
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'NewsArticle', headline: article.title,
+  description: article.excerpt, image: [new URL(article.image, Astro.site).href],
+  datePublished: article.publishedAt, author: { '@type': 'Person', name: article.author },
+  publisher: { '@type': 'Organization', name: 'Panelraid', logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', Astro.site).href } },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
+---
+<BaseLayout title={`${article.title} | Panelraid`} description={article.excerpt} image={article.image} active={article.category} article={article}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />
+  <div class="container article-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><Icon name="chevron" size={10} /><a href={`/category/${article.category.toLowerCase()}/`}>{article.category}</a><Icon name="chevron" size={10} /><span>Story</span></nav>
+    <header class="article-header"><a class="category-label" href={`/category/${article.category.toLowerCase()}/`}>{article.category}</a><h1>{article.title}</h1><p class="article-deck">{article.excerpt}</p><div class="article-metadata"><span class="author-avatar" aria-hidden="true">{article.author.split(' ').map(n => n[0]).slice(0, 2).join('')}</span><span class="article-author">{article.author}</span><span>·</span><time datetime={article.publishedAt}>{date}</time><span>·</span><span>{article.readingMinutes} min read</span></div></header>
+    <img class="article-cover" src={article.image} alt={article.imageAlt} width="1240" height="620" fetchpriority="high" style={{ objectPosition: article.imagePosition }} />
+    <p class="article-caption">{usingSampleContent ? 'Promotional artwork used for this demo. Rights belong to the respective owners.' : article.imageAlt}</p>
+    <div class="article-content-layout"><div>{usingSampleContent && <p class="article-demo-notice">DEMO STORY · This fictional sample is for the Panelraid preview.</p>}<div class="prose"><EditorialBody body={article.body} /></div>{typeof article.score === 'number' && <div class="review-verdict"><span class="verdict-number">{article.score.toFixed(1)}</span><div><h2>The Panelraid score</h2><p>Out of 10. {usingSampleContent ? 'An illustrative score for this demo review.' : 'Read our review above for the complete verdict.'}</p></div></div>}<ArticleTools client:visible slug={article.slug} /></div><aside><Newsletter compact /></aside></div>
+    {related.length > 0 && <section class="reviews-section" aria-labelledby="related-heading"><div class="section-heading"><h2 id="related-heading"><span class="heading-slash"></span> Keep exploring</h2><a href={`/category/${article.category.toLowerCase()}/`} class="text-link">More {article.category.toLowerCase()} <Icon name="arrow" size={16} /></a></div><div class="review-grid" style="margin-top:24px">{related.map(a => <ArticleCard article={a} />)}</div></section>}
+  </div>
+</BaseLayout>

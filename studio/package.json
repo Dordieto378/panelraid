@@ -1,0 +1,16 @@
+{
+  "name": "@panelraid/studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build ../dist/studio && node ../scripts/finalize-studio.mjs ../dist/studio"
+  },
+  "dependencies": {
+    "sanity": "^4.22.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "styled-components": "^6.1.19"
+  }
+}

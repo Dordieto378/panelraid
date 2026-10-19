@@ -1,0 +1,44 @@
+{
+  "name": "panelraid",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "workspaces": [
+    "studio"
+  ],
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build && node scripts/build-studio.mjs",
+    "preview": "astro preview --host 127.0.0.1",
+    "check": "astro check && tsc --noEmit -p studio/tsconfig.json",
+    "studio": "npm run dev --workspace=@panelraid/studio",
+    "test:smoke": "node scripts/smoke-test.mjs",
+    "test:a11y": "node scripts/accessibility-test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource-variable/dm-sans": "^5.2.8",
+    "@fontsource/barlow-condensed": "^5.2.6",
+    "@portabletext/react": "^4.0.3",
+    "@sanity/client": "^7.12.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.18.2",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.58.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "sharp": "^0.34.5",
+    "typescript": "^5.9.3"
+  }
+}

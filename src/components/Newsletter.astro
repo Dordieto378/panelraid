@@ -1,0 +1,18 @@
+---
+import Icon from './Icon.astro';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<section class:list={['newsletter-card', { compact }]} aria-labelledby={compact ? 'sidebar-newsletter-title' : 'newsletter-title'}>
+  <div class="newsletter-decoration" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none"><path d="m12 46 76-27-25 68-18-26-33-15Z" stroke="currentColor" stroke-width="2"/><path d="m45 61 43-42M45 61l-2 18 11-7" stroke="currentColor" stroke-width="2"/><path d="m12 18 7 4m-15 8 8 1m11-27 1 8M77 89l5 6m8-24 6 1" stroke="currentColor" stroke-width="2"/></svg></div>
+  <span class="newsletter-kicker"><Icon name="mail" size={16} /> THE WEEKLY RAID</span>
+  <h2 id={compact ? 'sidebar-newsletter-title' : 'newsletter-title'}>Good stories.<br />Straight to your inbox.</h2>
+  <p>Your weekly drop of anime, manga, and things worth geeking out over.</p>
+  <form name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/newsletter/success/">
+    <input type="hidden" name="form-name" value="newsletter" />
+    <p class="hidden" aria-hidden="true"><label>Leave this empty<input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+    <label class="sr-only" for={compact ? 'sidebar-email' : 'newsletter-email'}>Email address</label>
+    <div class="newsletter-input"><input id={compact ? 'sidebar-email' : 'newsletter-email'} name="email" type="email" placeholder="Your email address" required autocomplete="email" /><button type="submit" aria-label="Subscribe to The Weekly Raid"><Icon name="right" size={20} /></button></div>
+    <p class="newsletter-privacy">By subscribing, you agree to our <a href="/privacy/">privacy policy</a>. Unsubscribe anytime.</p>
+  </form>
+</section>

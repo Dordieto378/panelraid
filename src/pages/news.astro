@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleFeed from '../components/ArticleFeed';
+import { getArticles } from '../lib/content';
+import { articleSummaries } from '../lib/types';
+const articles = await getArticles();
+---
+<BaseLayout title="The latest anime, manga & gaming stories | Panelraid" active="News"><div class="container archive"><header class="archive-header"><span class="eyebrow">YOUR DAILY CATCH-UP</span><h1>Fresh off the feed<span style="color:#3b96d2">.</span></h1><p>The latest stories from the worlds you love. Let’s get you caught up.</p></header><ArticleFeed client:visible articles={articleSummaries(articles)} pageSize={12} /></div></BaseLayout>

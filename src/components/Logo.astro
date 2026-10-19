@@ -1,0 +1,8 @@
+---
+interface Props { light?: boolean }
+const { light = false } = Astro.props;
+---
+<a href="/" class:list={['logo', { 'logo-light': light }]} aria-label="Panelraid home">
+  <svg class="logo-mark" width="35" height="37" viewBox="0 0 35 37" fill="none" aria-hidden="true"><path d="M4 4 17 1l14 4v26l-14 5L4 32V4Z" fill="currentColor"/><path d="m9 9 8-2 9 3v6l-9-2-8 2V9Zm0 12 8-2 9 2v6l-9 3-8-3v-6Z" fill="white"/><path d="M17 7v7m0 5v11" stroke="#76C9FF" stroke-width="2"/></svg>
+  <span>PANEL<span class="logo-accent">RAID</span><span class="logo-period">.</span></span>
+</a>

@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleFeed from '../../components/ArticleFeed';
+import { categories, articleSummaries } from '../../lib/types';
+import { getArticles } from '../../lib/content';
+export function getStaticPaths() { return categories.filter(c => c !== 'All').map(category => ({ params: { category: category.toLowerCase() }, props: { category } })); }
+interface Props { category: string }
+const { category } = Astro.props;
+const descriptions: Record<string, string> = {
+  Anime: 'Fresh stories, exciting worlds, and all the anime worth talking about. Your next obsession starts here.',
+  Manga: 'One more chapter. Discover new reads, familiar favorites, and stories that leap off the page.',
+  Gaming: 'For the next quest and the scenic route. Games, worlds, and adventures on our radar.',
+  Reviews: 'Honest takes. Thoughtful deep dives. Find out what deserves a place on your watchlist or bookshelf.',
+  Culture: 'Beyond the screen and between the panels. The people, art, and ideas that make fandom feel like home.',
+};
+const articles = (await getArticles()).filter(a => a.category === category);
+---
+<BaseLayout title={`${category} news & stories | Panelraid`} description={descriptions[category]} active={category}><div class="container archive"><header class="archive-header"><span class="eyebrow">EXPLORE YOUR WORLD</span><h1>{category}<span style="color:#3b96d2">.</span></h1><p>{descriptions[category]}</p></header><ArticleFeed client:visible articles={articleSummaries(articles)} pageSize={12} showFilters={false} /></div></BaseLayout>
