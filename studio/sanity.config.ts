@@ -1,5 +1,6 @@
 import { defineConfig, type DocumentActionComponent } from "sanity";
 import { structureTool } from "sanity/structure";
+import { TopPublishLayout } from "./components/TopPublishLayout";
 import { schemaTypes } from "./schemaTypes";
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || "k3trq9dt";
@@ -41,6 +42,9 @@ export default defineConfig({
       previousActions.map((action) =>
         action.action === "publish" ? movePublishToTop(action) : action,
       ),
+    components: {
+      unstable_layout: TopPublishLayout,
+    },
   },
   schema: { types: schemaTypes },
 });
