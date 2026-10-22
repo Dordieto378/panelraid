@@ -52,7 +52,7 @@ const trending = articles.filter((a, i, list) => list.findIndex(b => b.topic ===
     <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8065074941773818" crossorigin="anonymous"></script>
     <slot name="head" />
   </head>
-  <body>
+  <body google-side-rail-overlap="false">
     <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="utility-bar"><div class="container utility-inner"><span><i></i> REVIEWS. OPINIONS. ANALYSIS. DISCUSSION.</span><div><a href="/about/">About Panelraid <Icon name="arrow" size={11} /></a><span class="utility-divider"></span><a href="/rss.xml" aria-label="Panelraid RSS feed"><Icon name="rss" size={13} /><span>RSS</span></a></div></div></div>
     <header class="site-header"><div class="container header-inner"><Logo /><Navigation client:load articles={articles.map(({ title, slug, category, image }) => ({ title, slug, category, image }))} active={active} /></div></header>
