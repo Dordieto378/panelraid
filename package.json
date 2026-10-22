@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
-    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/dm-sans": "^5.2.8",
     "@fontsource/barlow-condensed": "^5.2.6",
     "@portabletext/react": "^4.0.3",
