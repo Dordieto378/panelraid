@@ -28,7 +28,7 @@ const env = {
 };
 const result = spawnSync(
   process.execPath,
-  ["../node_modules/sanity/bin/sanity", "build", "../dist/studio"],
+  ["../node_modules/sanity/bin/sanity", "build", "../dist/studio", "--yes"],
   { cwd: "studio", env, stdio: "inherit" },
 );
 if (result.status !== 0) process.exit(result.status ?? 1);

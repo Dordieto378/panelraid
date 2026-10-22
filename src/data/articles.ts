@@ -1,5 +1,5 @@
 import type { PortableTextBlock } from "@portabletext/react";
-import type { Article, Category, Product } from "../lib/types";
+import type { Article, Category } from "../lib/types";
 
 function block(
   text: string,
@@ -46,7 +46,7 @@ function body(
       8,
     ),
     block(
-      "This is a fictional sample article created for the Panelraid website demonstration. It is not a report of a confirmed announcement, release, or review.",
+      "This is a fictional sample editorial created for the Panelraid website demonstration.",
       9,
     ),
   ];
@@ -83,18 +83,6 @@ const seeds: Seed[] = [
     imagePosition: "center 32%",
     featured: true,
     author: "Kai Anderson",
-  },
-  {
-    slug: "apothecary-diaries-maomao-steals-the-show",
-    title: "Why we can’t get enough of The Apothecary Diaries",
-    excerpt:
-      "Palace secrets, perfect chemistry, and the most wonderfully curious heroine in anime.",
-    category: "Reviews",
-    image: "/images/apothecary.webp",
-    imageAlt: "Maomao and Jinshi surrounded by flowers in a palace garden",
-    imagePosition: "center 27%",
-    featured: true,
-    score: 9.2,
   },
   {
     slug: "one-piece-a-new-adventure-awaits",
@@ -157,7 +145,7 @@ const seeds: Seed[] = [
     title: "The tiny details that make Jujutsu Kaisen hit different",
     excerpt:
       "Breaking down the visual storytelling behind some of our favorite scenes.",
-    category: "Culture",
+    category: "Anime",
     image: "/images/jujutsu-kaisen.webp",
     imageAlt: "Gojo and Geto amid blue skies and shards of glass",
     imagePosition: "center 24%",
@@ -165,34 +153,11 @@ const seeds: Seed[] = [
     readingMinutes: 8,
   },
   {
-    slug: "frieren-season-one-review",
-    title: "Frieren review: the quiet magic of a remarkable journey",
-    excerpt:
-      "A beautiful reminder that the smallest moments often mean the most.",
-    category: "Reviews",
-    image: "/images/frieren.webp",
-    imageAlt: "Frieren holding a spellbook in a field of white flowers",
-    score: 9.5,
-    readingMinutes: 8,
-    author: "Hana Mori",
-  },
-  {
-    slug: "dandadan-manga-review",
-    title: "DAN DA DAN, Vol. 1 review: a gloriously chaotic beginning",
-    excerpt:
-      "A supernatural odd couple with enough energy to leap straight off the page.",
-    category: "Reviews",
-    image: "/images/dandadan.webp",
-    imageAlt: "DAN DA DAN protagonists running toward a supernatural threat",
-    score: 8.8,
-    author: "Kai Anderson",
-  },
-  {
     slug: "weekend-anime-watchlist",
     title: "The weekend watchlist: 5 worlds worth getting lost in",
     excerpt:
       "Clear your schedule. These adventures are worth giving your full attention.",
-    category: "Culture",
+    category: "Anime",
     image: "/images/apothecary.webp",
     imageAlt: "Maomao in a vibrant historical fantasy garden",
     author: "Sophie Park",
@@ -219,22 +184,10 @@ const seeds: Seed[] = [
     author: "Alex Chen",
   },
   {
-    slug: "solo-leveling-review",
-    title: "Solo Leveling review: an irresistible power fantasy",
-    excerpt:
-      "Jinwoo’s climb from underdog to unstoppable makes for seriously good television.",
-    category: "Reviews",
-    image: "/images/solo-leveling.webp",
-    imageAlt: "Sung Jinwoo in blue and purple promotional artwork",
-    imagePosition: "center 30%",
-    score: 8.9,
-    author: "Kai Anderson",
-  },
-  {
     slug: "the-art-of-anime-soundtracks",
     title: "Beyond the opening: the anime soundtracks on repeat",
     excerpt: "The music that turns a great scene into an unforgettable one.",
-    category: "Culture",
+    category: "Anime",
     image: "/images/jujutsu-kaisen.webp",
     imageAlt: "Jujutsu Kaisen characters against a bright blue sky",
     author: "Sophie Park",
@@ -261,16 +214,3 @@ export const sampleArticles: Article[] = seeds.map((seed, index) => ({
   body: body(seed.title, seed.excerpt, seed.category),
 }));
 
-// Demonstration recommendations link to reading guides, not invented checkout pages.
-export const sampleProducts: Product[] = [
-  {
-    id: "manga-starter",
-    name: "Your next shelf favorite",
-    description: "Our beginner-friendly manga reading guide.",
-    image: "/images/manga.webp",
-    imageAlt: "A shelf of colorful manga volumes",
-    url: "/articles/manga-that-deserve-a-spot-on-your-shelf/",
-    priceLabel: "Explore the reading list",
-    label: "THE MANGA EDIT",
-  },
-];

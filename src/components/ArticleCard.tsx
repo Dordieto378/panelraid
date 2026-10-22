@@ -29,12 +29,6 @@ export default function ArticleCard({
           decoding="async"
           style={{ objectPosition: article.imagePosition }}
         />
-      {typeof article.score === "number" && (
-          <span className="review-score">
-            {article.score.toFixed(1)}
-            <small>/10</small>
-          </span>
-        )}
         <span className="image-arrow">
           <ArrowUpRight size={19} />
         </span>

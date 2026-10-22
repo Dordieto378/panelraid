@@ -43,7 +43,7 @@ export default function ArticleFeed({
             </button>
           ))}
           <a href="/news/" className="feed-all">
-            View all <ArrowUpRight size={15} />
+            Browse all <ArrowUpRight size={15} />
           </a>
         </div>
       )}
@@ -54,7 +54,7 @@ export default function ArticleFeed({
       </div>
       {filtered.length === 0 && (
         <div className="feed-empty">
-          Fresh stories are on their way. Explore another category in the
+          More perspectives are on their way. Explore another category in the
           meantime.
         </div>
       )}

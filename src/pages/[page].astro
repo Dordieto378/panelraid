@@ -1,37 +1,190 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Newsletter from '../components/Newsletter.astro';
-import Icon from '../components/Icon.astro';
 
 const content: Record<string, { title: string; eyebrow: string; paragraphs: string[] }> = {
-  about: { title: 'Your world. One panel at a time.', eyebrow: 'HEY, WE’RE PANELRAID', paragraphs: [
-    'Some of the best conversations start with “Have you watched this yet?” Panelraid is a home for those conversations: the anime you can’t stop thinking about, the manga you stayed up too late reading, and the game you keep coming back to.',
-    'We’re building a place for curious fans. Expect thoughtful stories, approachable reviews, and recommendations that help you find your next favorite.',
-    'This is the demo edition of Panelraid. Article headlines, authors, reviews, and scores are fictional samples created to show the experience. Anime titles and promotional artwork belong to their respective owners.',
+  about: {
+    title: 'About PanelRaid',
+    eyebrow: 'ABOUT PANELRAID',
+    paragraphs: [
+      'PanelRaid is an independent publication dedicated to anime, manga, and video games. It is a place for thoughtful discussions, personal perspectives, and a deeper appreciation of the stories that stay with us long after we have finished them.',
+    ],
+  },
+  'affiliate-disclosure': { title: 'Our Affiliate Approach', eyebrow: 'AFFILIATE DISCLOSURE', paragraphs: [
+    'At PanelRaid, our primary focus has always been the stories, experiences, and creative works that make anime, manga, and video games worth discussing.',
   ] },
-  editorial: { title: 'Curious minds. Honest opinions.', eyebrow: 'OUR EDITORIAL APPROACH', paragraphs: [
-    'Panelraid is designed around clear reporting, thoughtful criticism, and a shared love of storytelling. Reviews should explain what works, what doesn’t, and who a story might connect with.',
-    'For the live publication, reporting should link to original announcements, distinguish confirmed details from speculation, and carry clear publication dates and bylines. Substantial corrections should be acknowledged on the affected story.',
-    'Affiliate relationships should be disclosed where recommendations appear. A commercial relationship should never determine a review score.',
-    'The current edition is a demonstration. Its stories and review scores are illustrative and should not be treated as factual reporting.',
-  ] },
-  'affiliate-disclosure': { title: 'A word about our links.', eyebrow: 'AFFILIATE DISCLOSURE', paragraphs: [
-    'The Loot is a space for curated recommendations. On the live site, some product links may be affiliate links. If you make a purchase through one of those links, Panelraid may receive a commission at no additional cost to you.',
-    'Affiliate links are identified in the recommendation area. Product availability and prices can change; the retailer’s page has the current details.',
-    'There are no live affiliate offers in this demo. The current sample recommendation links to an editorial reading guide.',
-  ] },
-  privacy: { title: 'A little clarity on privacy.', eyebrow: 'DEMO PRIVACY NOTICE', paragraphs: [
-    'Panelraid’s demo does not use advertising trackers or analytics. Saving a story stores a preference in your browser’s local storage. You can remove it with the Save story button or clear this site’s browser storage.',
-    'Search runs in your browser against the site’s published article list. Search terms are not submitted to a search service.',
-    'The newsletter form is prepared for Netlify Forms. Once deployed with form detection enabled, submitting your email sends it to the site operator through Netlify. This preview does not connect a mailing service or send a newsletter.',
-    'Production newsletter operations, retention periods, service providers, and a contact address need to be documented by the site operator before collecting subscribers. This demo notice is not a finalized production privacy policy.',
+  privacy: { title: 'Privacy Policy', eyebrow: 'PRIVACY POLICY', paragraphs: [
+    'At PanelRaid, we respect your privacy and are committed to being transparent about how information is collected, used, and protected when you visit our website.',
   ] },
   newsletter: { title: 'Your next favorite, delivered.', eyebrow: 'THE WEEKLY RAID', paragraphs: [
-    'A thoughtful little roundup of anime, manga, and the stories worth sharing. Join us for new discoveries, good reads, and a little fandom in your inbox.',
+    'A weekly selection of reviews, opinions, and conversations about anime, manga, and gaming. Join us for thoughtful reads and fresh perspectives in your inbox.',
   ] },
 };
-export function getStaticPaths() { return ['about', 'editorial', 'affiliate-disclosure', 'privacy', 'newsletter'].map(page => ({ params: { page } })); }
+
+export function getStaticPaths() {
+  return ['about', 'affiliate-disclosure', 'privacy', 'newsletter'].map((page) => ({
+    params: { page },
+  }));
+}
+
 const page = Astro.params.page!;
 const { title, eyebrow, paragraphs } = content[page];
 ---
-<BaseLayout title={`${page === 'about' ? 'About Panelraid' : title} | Panelraid`} description={paragraphs[0]}><div class="info-page"><span class="eyebrow">{eyebrow}</span><h1>{title}</h1><div class="prose">{paragraphs.map(p => <p>{p}</p>)}</div>{page === 'newsletter' ? <Newsletter /> : <a href="/" class="button-primary">Explore the latest stories <Icon name="right" size={17} /></a>}</div></BaseLayout>
+<BaseLayout title={`${page === 'about' ? 'About PanelRaid' : title} | Panelraid`} description={paragraphs[0]}>
+  <div class="info-page">
+    {page !== 'about' && <span class="eyebrow">{eyebrow}</span>}
+    <h1>{title}</h1>
+    <div class="prose">
+      {page === 'about' ? <>
+        <p class="about-tagline"><strong>Stories worth experiencing. Stories worth discussing.</strong></p>
+        <p>PanelRaid is an independent publication dedicated to anime, manga, and video games. It's a place for thoughtful discussions, personal perspectives, and a deeper appreciation of the stories that stay with us long after we've finished them.</p>
+        <p>We're not here to chase every trending topic, report every minor announcement, or tell you what you're supposed to like. PanelRaid exists because some stories deserve more than a passing conversation.</p>
+        <p>Why does a decades-old manga still resonate with readers today? What makes a particular video game unforgettable? Why do certain characters, themes, and moments leave such a lasting impression?</p>
+        <p>Those are the kinds of questions that interest us.</p>
+
+        <h2>What You'll Find Here</h2>
+        <p>PanelRaid explores anime, manga, and gaming through long-form editorials, retrospectives, analysis, and recommendations.</p>
+        <p>Whether it's examining the struggles of adolescence and the search for recognition in <em>Slam Dunk</em>, revisiting the legacy of classic <em>Final Fantasy</em> games, or discussing what makes a fictional character compelling, the focus is always on the work itself and what makes it worth talking about.</p>
+        <p>We appreciate both the celebrated classics and the overlooked gems. A story doesn't have to be universally acclaimed to be meaningful, and popularity doesn't automatically make something great.</p>
+
+        <h2>Our Approach</h2>
+        <p>We believe criticism should come from genuine interest, not the need to manufacture an opinion.</p>
+        <p>Our articles are written with a clear perspective, supported by research, careful consideration, and an appreciation for the medium. We aren't interested in pretending every opinion is objective or that every beloved work is beyond criticism.</p>
+        <p>Sometimes we'll celebrate a masterpiece. Sometimes we'll question its reputation. And sometimes we'll simply share why a particular story means something to us.</p>
+        <p>You don't have to agree with everything written here. Different interpretations and perspectives are part of what makes discussing entertainment interesting in the first place.</p>
+
+        <h2>Why PanelRaid?</h2>
+        <p>Because finishing a great story doesn't always mean you're finished thinking about it.</p>
+        <p>Sometimes you want to revisit its characters, understand its themes, question its choices, or simply appreciate what made the experience special.</p>
+        <p><strong>PanelRaid is a place for those conversations.</strong></p>
+        <p>Thanks for reading.</p>
+      </> : page === 'affiliate-disclosure' ? <>
+        <p>At PanelRaid, our primary focus has always been the stories, experiences, and creative works that make anime, manga, and video games worth discussing.</p>
+        <p>We believe recommendations should come from genuine interest and thoughtful consideration, not financial incentives. While some of our content may contain affiliate links, our opinions and editorial direction remain independent.</p>
+        <p>This page explains how affiliate links work on PanelRaid, how we approach recommendations, and what they mean for our readers.</p>
+
+        <h2>How Affiliate Links Work</h2>
+        <p>Some links on PanelRaid may direct you to third-party retailers where you can purchase products related to the topics we cover.</p>
+        <p>When you make a qualifying purchase through one of these links, PanelRaid may receive a small commission from the retailer, at no additional cost to you.</p>
+        <p>These commissions help support the website, allowing us to continue publishing original editorials, retrospectives, analysis, and recommendations.</p>
+
+        <h2>Supporting PanelRaid</h2>
+        <p>Purchasing through an affiliate link is one way to support PanelRaid, but it is never expected.</p>
+        <p>Reading our articles, sharing them with others, and participating in conversations about the stories we love are equally appreciated.</p>
+        <p>Ultimately, PanelRaid exists because we believe great stories deserve thoughtful discussion.</p>
+        <p>That will always come first.</p>
+        <p>Thank you for supporting PanelRaid.</p>
+      </> : page === 'privacy' ? <>
+        <p>At PanelRaid, we respect your privacy and are committed to being transparent about how information is collected, used, and protected when you visit our website.</p>
+        <p>This Privacy Policy explains what information may be processed through PanelRaid, why it is processed, and the rights available to you.</p>
+        <p>By visiting PanelRaid, you can read this policy to understand our data practices. Where consent is legally required, simply using the website does not constitute consent.</p>
+
+        <h2>1. Who We Are</h2>
+        <p>PanelRaid is an independent online publication dedicated to anime, manga, and video games. We publish editorials, analysis, retrospectives, and recommendations for readers worldwide.</p>
+
+        <h2>2. Information We Collect</h2>
+        <p>PanelRaid is primarily a content-focused website. You can browse our articles without submitting personal information directly to us.</p>
+        <p>However, certain information may be processed when you interact with the website.</p>
+        <p><strong>Automatically Collected Information</strong></p>
+        <p>When you visit PanelRaid, our hosting and infrastructure providers may process technical information, including:</p>
+        <ul>
+          <li>IP address</li>
+          <li>Browser type and version</li>
+          <li>Device and operating system information</li>
+          <li>Pages requested and timestamps</li>
+          <li>Referring website information</li>
+          <li>Technical information needed for website security and performance</li>
+        </ul>
+        <p>This information may be necessary to deliver website content, diagnose technical problems, and protect the website against misuse.</p>
+        <p><strong>Information You Provide Voluntarily</strong></p>
+        <p>If you contact us by email or another available contact method, we may receive your name, email address, and any information you choose to include in your message.</p>
+        <p>We use this information to respond to inquiries and manage communications.</p>
+
+        <h2>3. How We Use Information</h2>
+        <p>Personal information may be processed for the following purposes:</p>
+        <ul>
+          <li><strong>Website operation:</strong> To deliver content and maintain website functionality.</li>
+          <li><strong>Security:</strong> To detect technical problems, prevent abuse, and protect the website.</li>
+          <li><strong>Communication:</strong> To respond to messages, questions, or requests.</li>
+          <li><strong>Legal compliance:</strong> To comply with applicable legal obligations.</li>
+        </ul>
+        <p>Under the General Data Protection Regulation (GDPR), our legal bases may include legitimate interests in operating and securing the website, legitimate interests in responding to inquiries, compliance with legal obligations, and consent where required.</p>
+
+        <h2>4. Cookies and Tracking Technologies</h2>
+        <p>Cookies are small files that websites may store on your device to support functionality or remember certain information.</p>
+        <p>PanelRaid may use essential technologies required for website operation and security.</p>
+        <p>If we introduce analytics, advertising, or other non-essential tracking technologies, we will provide appropriate information and request consent where required by applicable law.</p>
+        <p>You can also manage or delete cookies through your browser settings.</p>
+        <p>Some third-party websites accessed through links on PanelRaid may use their own cookies and tracking technologies, which are governed by their respective privacy policies.</p>
+
+        <h2>5. Affiliate Links and Advertising</h2>
+        <p>PanelRaid may participate in affiliate marketing programs, including Amazon Associates and other relevant partnerships.</p>
+        <p>Some articles may contain affiliate links to products or services related to anime, manga, gaming, and entertainment.</p>
+        <p>If you purchase a product after clicking an affiliate link, PanelRaid may earn a commission at no additional cost to you.</p>
+        <p>Affiliate partners may collect information about referrals, clicks, and qualifying purchases in accordance with their own privacy policies.</p>
+        <p><strong>Amazon Associates Disclosure</strong></p>
+        <p>As an Amazon Associate I earn from qualifying purchases.</p>
+        <p>Affiliate partnerships do not guarantee positive coverage or determine the opinions expressed in our editorial content.</p>
+        <p>We aim to maintain transparency regarding commercial relationships and clearly identify affiliate recommendations.</p>
+
+        <h2>6. Third-Party Services</h2>
+        <p>PanelRaid relies on third-party infrastructure and services to operate and maintain the website.</p>
+        <p>These may include website hosting, content delivery, content management, email, and affiliate marketing services.</p>
+        <p>Such providers may process limited personal information where necessary to provide their services.</p>
+        <p>The relevant service providers are:</p>
+        <ul>
+          <li><strong>Website hosting:</strong> <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer">Netlify</a></li>
+          <li><strong>Content management:</strong> <a href="https://www.sanity.io/" target="_blank" rel="noopener noreferrer">Sanity Studio</a></li>
+        </ul>
+        <p>We do not sell personal information to data brokers.</p>
+        <p>Personal information may also be disclosed when required by law or where necessary to protect legitimate legal rights.</p>
+
+        <h2>7. International Data Transfers</h2>
+        <p>PanelRaid serves an international audience, and some service providers may process information outside the European Economic Area (EEA).</p>
+        <p>Where personal data is transferred internationally, appropriate legal safeguards must be applied where required, such as an applicable adequacy decision or Standard Contractual Clauses.</p>
+        <p>You may contact us for further information about relevant international transfers and safeguards.</p>
+
+        <h2>8. Data Retention and Security</h2>
+        <p>We retain personal information only for as long as reasonably necessary for the purposes described in this Privacy Policy or as required by applicable law.</p>
+        <p>For example, messages sent to us may be retained while an inquiry is being handled and for any further period reasonably necessary for follow-up or legal obligations.</p>
+        <p>Technical logs are retained according to the applicable operational and security requirements and relevant service-provider retention settings.</p>
+        <p>We take reasonable measures to protect personal information from unauthorized access, disclosure, alteration, or loss.</p>
+        <p>However, no internet-based service can guarantee absolute security.</p>
+
+        <h2>9. Your Privacy Rights</h2>
+        <p>If you are located in the European Economic Area, you may have rights under the GDPR, including the right to:</p>
+        <ul>
+          <li>Request access to your personal data.</li>
+          <li>Request corrections to inaccurate information.</li>
+          <li>Request deletion of personal information in applicable circumstances.</li>
+          <li>Restrict certain types of data processing.</li>
+          <li>Object to processing based on legitimate interests.</li>
+          <li>Request data portability where applicable.</li>
+          <li>Withdraw consent at any time where processing relies on consent.</li>
+        </ul>
+        <p>To exercise these rights, contact us using the email address provided in Section 13.</p>
+        <p>You also have the right to lodge a complaint with a relevant data protection authority, including the Dutch Autoriteit Persoonsgegevens.</p>
+
+        <h2>10. Links to External Websites</h2>
+        <p>PanelRaid articles may contain links to external websites, including retailers, publishers, gaming platforms, and other entertainment-related services.</p>
+        <p>We are not responsible for the privacy practices or content of websites operated by third parties.</p>
+        <p>We encourage visitors to review the privacy policies of external websites before providing personal information.</p>
+
+        <h2>11. Children's Privacy</h2>
+        <p>PanelRaid does not intentionally request personal information from children.</p>
+        <p>If you believe a child has provided personal information to us and wish to request its removal, please contact us.</p>
+
+        <h2>12. Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy to reflect changes to the website, the services we use, or applicable privacy requirements.</p>
+        <p>Any changes will be published on this page, with the “Last Updated” date revised accordingly.</p>
+        <p>We encourage readers to review this page periodically.</p>
+
+        <h2>13. Contact</h2>
+        <p>For questions, concerns, or requests relating to privacy and data protection, please contact:</p>
+        <p>Email: <a href="mailto:contact@panelraid.com">contact@panelraid.com</a></p>
+        <p>We will review privacy-related inquiries and respond in accordance with applicable legal requirements.</p>
+      </> : paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+    {page === 'newsletter' && <Newsletter />}
+  </div>
+</BaseLayout>

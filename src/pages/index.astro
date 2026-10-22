@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import ArticleFeed from '../components/ArticleFeed';
-import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar.astro';
 import { getArticles } from '../lib/content';
 import { articleUrl, articleSummaries } from '../lib/types';
@@ -10,23 +9,21 @@ import { imageSrcSet } from '../lib/images';
 const articles = await getArticles();
 const featured = [...articles.filter(a => a.featured), ...articles.filter(a => !a.featured)].slice(0, 3);
 const latest = articles.filter(a => !featured.some(f => f.id === a.id));
-const reviews = articles.filter(a => a.category === 'Reviews').slice(0, 3);
 const editionDate = articles[0]?.publishedAt || new Date().toISOString();
 const formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'Europe/Amsterdam' }).format(new Date(editionDate));
 ---
 <BaseLayout>
   <div class="container homepage">
-    <div class="edition-intro"><div><span class="eyebrow intro-eyebrow">THE STORIES. THE CULTURE. THE HYPE.</span><h1>A new day. A new obsession<span>.</span></h1><p>Stay in the loop with the worlds you love.</p></div><div class="edition-date"><span class="edition-date-dot"></span><time datetime={editionDate}>{formattedDate}</time><span>LET’S GET INTO IT <Icon name="arrow" size={13} /></span></div></div>
+    <div class="edition-intro"><div><span class="eyebrow intro-eyebrow">REVIEWS. OPINIONS. ANALYSIS. DISCUSSION.</span><h1>Your fandom. A deeper perspective<span>.</span></h1><p>Thoughtful takes on anime, manga, and the games worth talking about.</p></div><div class="edition-date"><span class="edition-date-dot"></span><time datetime={editionDate}>{formattedDate}</time><span>LET’S TALK ABOUT IT <Icon name="arrow" size={13} /></span></div></div>
     {featured.length > 0 && <section class="featured-grid" aria-label="Featured stories">
       {featured.map((article, i) => <article class:list={['feature-card', { 'feature-main': i === 0 }]}>
         <a href={articleUrl(article)} class="feature-link"><img src={article.image} srcset={imageSrcSet(article.image)} sizes={i === 0 ? '(max-width:760px) 95vw, 65vw' : '(max-width:760px) 46vw, 32vw'} alt={article.imageAlt} width={i === 0 ? 1200 : 650} height={i === 0 ? 760 : 420} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} style={{ objectPosition: article.imagePosition }} /><div class="feature-shade"></div>
-          {i === 0 && <span class="feature-kicker"><span></span> THE BIG STORY</span>}
-          <div class="feature-content"><span class="feature-category">{article.category}{i === 0 && <span> · NEWS & UPDATES</span>}</span><h2>{article.title}</h2>{i === 0 && <p>{article.excerpt}</p>}<div class="feature-byline"><span>{article.author}</span><span class="feature-byline-dot">·</span><span><Icon name="clock" size={12} /> {article.readingMinutes} min read</span></div></div><span class="feature-arrow"><Icon name="arrow" size={i === 0 ? 24 : 21} /></span>
+          {i === 0 && <span class="feature-kicker"><span></span> FEATURED EDITORIAL</span>}
+          <div class="feature-content"><span class="feature-category">{article.category}{i === 0 && <span> · OPINION & ANALYSIS</span>}</span><h2>{article.title}</h2>{i === 0 && <p>{article.excerpt}</p>}<div class="feature-byline"><span>{article.author}</span><span class="feature-byline-dot">·</span><span><Icon name="clock" size={12} /> {article.readingMinutes} min read</span></div></div><span class="feature-arrow"><Icon name="arrow" size={i === 0 ? 24 : 21} /></span>
         </a>
       </article>)}
     </section>}
-    <div class="editor-note"><span class="editor-note-icon">P<span>R</span></span><p>A fresh perspective on your favorite worlds. <strong>Welcome to Panelraid.</strong></p><a href="/about/">Get to know us <Icon name="right" size={15} /></a></div>
-    <div class="news-layout"><section class="latest-section" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title"><span class="heading-slash"></span> The latest</h2><span class="section-subtitle">YOUR DAILY CATCH-UP</span></div><ArticleFeed client:visible articles={articleSummaries(latest)} /></section><Sidebar articles={articles} /></div>
-    {reviews.length > 0 && <section class="reviews-section" aria-labelledby="review-title"><div class="section-heading"><h2 id="review-title"><span class="heading-slash"></span> Worth the hype?</h2><a class="text-link" href="/category/reviews/">All reviews <Icon name="arrow" size={17} /></a></div><p class="section-description">Honest takes. No spoilers. Find your next favorite.</p><div class="review-grid">{reviews.map(article => <ArticleCard article={article} showExcerpt />)}</div></section>}
+    <div class="editor-note"><span class="editor-note-icon">P<span>R</span></span><p>Independent voices and thoughtful takes on the worlds you love. <strong>Welcome to Panelraid.</strong></p><a href="/about/">Get to know us <Icon name="right" size={15} /></a></div>
+    <div class="news-layout"><section class="latest-section" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title"><span class="heading-slash"></span> New perspectives</h2><span class="section-subtitle">REVIEWS · OPINIONS · ANALYSIS</span></div><ArticleFeed client:visible articles={articleSummaries(latest)} /></section><Sidebar articles={articles} /></div>
   </div>
 </BaseLayout>

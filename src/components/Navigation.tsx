@@ -19,10 +19,9 @@ export default function Navigation({
   const searchInput = useRef<HTMLInputElement>(null);
   const searchButton = useRef<HTMLButtonElement>(null);
   const links = [
-    ["News", "/news/"],
+    ["All", "/news/"],
     ["Anime", "/category/anime/"],
     ["Manga", "/category/manga/"],
-    ["Reviews", "/category/reviews/"],
     ["Gaming", "/category/gaming/"],
     ["The Loot", "/the-loot/"],
   ];
@@ -89,7 +88,7 @@ export default function Navigation({
       <dialog
         ref={dialog}
         className="search-dialog"
-        aria-label="Search Panelraid stories"
+        aria-label="Search Panelraid editorials"
         onKeyDownCapture={(e) => {
           if (e.key === "Escape") {
             e.preventDefault();
@@ -108,7 +107,7 @@ export default function Navigation({
       >
         <div className="search-panel">
           <div className="search-heading">
-            <span>Find your next obsession</span>
+            <span>Find a fresh perspective</span>
             <button
               className="icon-button"
               aria-label="Close search"
@@ -122,7 +121,7 @@ export default function Navigation({
             <input
               ref={searchInput}
               type="search"
-              placeholder="Search anime, manga, reviews…"
+              placeholder="Search anime, manga, gaming…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Search articles"
@@ -131,7 +130,7 @@ export default function Navigation({
           <p className="search-caption" aria-live="polite">
             {query
               ? `${results.length} matching ${results.length === 1 ? "story" : "stories"}`
-              : "Explore the latest stories"}
+              : "Explore reviews, opinions, and analysis"}
           </p>
           <div className="search-results">
             {results.length ? (
@@ -154,7 +153,7 @@ export default function Navigation({
               ))
             ) : (
               <p className="empty-search">
-                No stories found. Try “Frieren”, “manga”, or “reviews”.
+                No stories found. Try “Frieren”, “manga”, or “gaming”.
               </p>
             )}
           </div>

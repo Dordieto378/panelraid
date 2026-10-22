@@ -29,7 +29,7 @@ const editorialFields = [
     name: "topic",
     title: "Short topic name",
     type: "string",
-    description: "Used in the trending bar, for example Frieren.",
+    description: "Used in the In Focus bar, for example Frieren.",
     validation: (rule) => rule.max(35),
   }),
   defineField({
@@ -43,7 +43,7 @@ const editorialFields = [
         return context
           .getClient({ apiVersion: "2026-10-01" })
           .fetch<boolean>(
-            'count(*[_type in ["article", "review"] && slug.current == $slug && !(_id in [$id, $draftId])]) == 0',
+            'count(*[_type == "article" && slug.current == $slug && !(_id in [$id, $draftId])]) == 0',
             { slug, id, draftId: `drafts.${id}` },
           );
       },
@@ -86,18 +86,16 @@ const editorialFields = [
   }),
   defineField({
     name: "body",
+    title: "Article body",
     type: "array",
+    description:
+      "Write normally and place images between paragraphs with the image button. Upload or select the image, then publish the article.",
     of: [
       defineArrayMember({ type: "block" }),
       defineArrayMember({
         type: "image",
-        fields: [
-          defineField({
-            name: "alt",
-            type: "string",
-            validation: (rule) => rule.required(),
-          }),
-        ],
+        title: "Article image",
+        options: { hotspot: true },
       }),
     ],
     validation: (rule) => rule.required().min(1),
@@ -133,7 +131,7 @@ export const schemaTypes = [
         name: "category",
         type: "string",
         options: {
-          list: ["Anime", "Manga", "Gaming", "Culture"],
+          list: ["Anime", "Manga", "Gaming"],
           layout: "radio",
         },
         initialValue: "Anime",
@@ -143,21 +141,6 @@ export const schemaTypes = [
     preview: {
       select: { title: "title", subtitle: "category", media: "mainImage" },
     },
-  }),
-  defineType({
-    name: "review",
-    title: "Reviews",
-    type: "document",
-    fields: [
-      ...editorialFields,
-      defineField({
-        name: "score",
-        title: "Score out of 10",
-        type: "number",
-        validation: (rule) => rule.required().min(0).max(10).precision(1),
-      }),
-    ],
-    preview: { select: { title: "title", media: "mainImage" } },
   }),
   defineType({
     name: "affiliateProduct",

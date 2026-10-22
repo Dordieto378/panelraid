@@ -15,8 +15,8 @@ const reports = [];
 try {
   for (const route of [
     "/",
-    "/category/reviews/",
-    "/articles/frieren-the-journey-is-far-from-over/",
+    "/category/gaming/",
+    "/articles/ping-pong-the-animation-beauty-of-youth-and-dreams/",
     "/newsletter/",
     "/the-loot/",
   ]) {

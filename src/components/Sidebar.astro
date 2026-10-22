@@ -9,7 +9,7 @@ const popular = [articles[1], articles[4], articles[0], articles[3]].filter(Bool
 ---
 <aside class="sidebar">
   <section class="popular-section" aria-labelledby="popular-title">
-    <div class="section-heading sidebar-heading"><h2 id="popular-title"><Icon name="fire" size={23} /> Most read</h2><span>RIGHT NOW</span></div>
+    <div class="section-heading sidebar-heading"><h2 id="popular-title"><Icon name="fire" size={23} /> Reader favorites</h2><span>WORTH YOUR TIME</span></div>
     <ol class="popular-list">{popular.map((article, i) => <li><span class="popular-number">0{i + 1}</span><div><a href={`/category/${article.category.toLowerCase()}/`} class="category-label">{article.category}</a><h3><a href={articleUrl(article)}>{article.title}</a></h3><span class="popular-time">{article.readingMinutes} min read</span></div><a href={articleUrl(article)} class="popular-image" tabindex="-1" aria-hidden="true"><img src={article.image} srcset={imageSrcSet(article.image)} sizes="74px" alt="" width="74" height="83" loading="lazy" style={{ objectPosition: article.imagePosition }} /></a></li>)}</ol>
   </section>
   <Newsletter compact />

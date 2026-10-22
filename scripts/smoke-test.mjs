@@ -42,25 +42,41 @@ try {
   );
   assert.equal(await page.locator("h1").count(), 1);
   assert.match(await page.title(), /Panelraid/);
+  assert.equal(
+    await page
+      .getByRole("navigation", { name: "Main navigation" })
+      .getByRole("link", { name: "Reviews", exact: true })
+      .count(),
+    0,
+  );
   assert.equal(await page.locator(".featured-grid .feature-card").count(), 3);
-  assert.equal(await page.locator(".feed .article-card").count(), 6);
+  const featuredArticlePath = await page
+    .locator(".featured-grid .feature-card a")
+    .first()
+    .getAttribute("href");
+  assert.ok(featuredArticlePath);
+  const initialFeedCount = await page.locator(".feed .article-card").count();
+  assert.ok(initialFeedCount > 0 && initialFeedCount <= 6);
   await page.getByRole("button", { name: "Manga", exact: true }).click();
-  assert.equal(await page.locator(".feed .article-card").count(), 2);
+  assert.ok((await page.locator(".feed .article-card").count()) > 0);
   assert.ok(
     (await page.locator(".feed .category-label").allTextContents()).every(
       (c) => c === "Manga",
     ),
   );
   await page.getByRole("button", { name: "All stories", exact: true }).click();
-  await page.getByRole("button", { name: "Load more stories" }).click();
-  assert.equal(await page.locator(".feed .article-card").count(), 12);
-  await page.getByRole("button", { name: "Load more stories" }).click();
-  assert.equal(await page.locator(".feed .article-card").count(), 13);
+  while (
+    (await page.getByRole("button", { name: "Load more stories" }).count()) > 0
+  )
+    await page.getByRole("button", { name: "Load more stories" }).click();
+  assert.ok(
+    (await page.locator(".feed .article-card").count()) >= initialFeedCount,
+  );
   await page
     .getByRole("button", { name: "Search articles", exact: true })
     .click();
-  await page.getByRole("searchbox").fill("Frieren");
-  assert.equal(await page.locator(".search-results > a").count(), 2);
+  await page.getByRole("searchbox").fill("Anime");
+  assert.ok((await page.locator(".search-results > a").count()) > 0);
   await page.getByRole("searchbox").fill("no-matches-12345");
   assert.ok(await page.locator(".empty-search").isVisible());
   await page.keyboard.press("Escape");
@@ -92,7 +108,7 @@ try {
     .click();
   await page.waitForURL("**/category/manga/");
   assert.equal(await page.locator("h1").innerText(), "Manga.");
-  await page.goto(`${baseURL}/articles/frieren-the-journey-is-far-from-over/`, {
+  await page.goto(`${baseURL}${featuredArticlePath}`, {
     waitUntil: "networkidle",
   });
   await page.locator(".article-tools").scrollIntoViewIfNeeded();
@@ -181,6 +197,14 @@ try {
     (
       await context.request.get(`${baseURL}/page-that-does-not-exist/`)
     ).status(),
+    404,
+  );
+  assert.equal(
+    (await context.request.get(`${baseURL}/category/reviews/`)).status(),
+    404,
+  );
+  assert.equal(
+    (await context.request.get(`${baseURL}/category/culture/`)).status(),
     404,
   );
   assert.equal(

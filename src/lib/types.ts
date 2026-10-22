@@ -5,8 +5,6 @@ export const categories = [
   "Anime",
   "Manga",
   "Gaming",
-  "Reviews",
-  "Culture",
 ] as const;
 export type Category = Exclude<(typeof categories)[number], "All">;
 
@@ -24,7 +22,6 @@ export interface Article {
   publishedAt: string;
   readingMinutes: number;
   featured?: boolean;
-  score?: number;
   body: PortableTextBlock[];
 }
 
