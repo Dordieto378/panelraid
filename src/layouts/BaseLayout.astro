@@ -30,6 +30,7 @@ const trending = articles.filter((a, i, list) => list.findIndex(b => b.topic ===
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#153d76" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="google-adsense-account" content="ca-pub-8065074941773818" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -48,6 +49,7 @@ const trending = articles.filter((a, i, list) => list.findIndex(b => b.topic ===
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title="Panelraid RSS" href="/rss.xml" />
     <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: 'Panelraid', url: Astro.site, logo: new URL('/favicon.svg', Astro.site) }).replace(/</g, '\\u003c')} />
+    <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8065074941773818" crossorigin="anonymous"></script>
     <slot name="head" />
   </head>
   <body>
