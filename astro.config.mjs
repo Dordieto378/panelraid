@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: process.env.SITE_URL || process.env.URL || "https://panelraid.example",
+  site: process.env.SITE_URL || "https://panelraid.com",
   output: "static",
   trailingSlash: "always",
   integrations: [

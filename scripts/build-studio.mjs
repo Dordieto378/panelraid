@@ -7,20 +7,12 @@ try {
   if (error.code !== "ENOENT") throw error;
 }
 
-if (
-  !process.env.PUBLIC_SANITY_PROJECT_ID &&
-  !process.env.SANITY_STUDIO_PROJECT_ID
-) {
-  console.log(
-    "Sample mode: Sanity Studio build skipped. Set your Sanity project ID to enable the CMS.",
-  );
-  process.exit(0);
-}
 const env = {
   ...process.env,
   SANITY_STUDIO_PROJECT_ID:
     process.env.SANITY_STUDIO_PROJECT_ID ||
-    process.env.PUBLIC_SANITY_PROJECT_ID,
+    process.env.PUBLIC_SANITY_PROJECT_ID ||
+    "k3trq9dt",
   SANITY_STUDIO_DATASET:
     process.env.SANITY_STUDIO_DATASET ||
     process.env.PUBLIC_SANITY_DATASET ||

@@ -2,7 +2,7 @@ import { createClient } from "@sanity/client";
 import { sampleArticles } from "../data/articles";
 import type { Article, Product } from "./types";
 
-const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
+const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID || "k3trq9dt";
 const client = projectId
   ? createClient({
       projectId,
