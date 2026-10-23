@@ -21,6 +21,7 @@ const articleQuery = `*[_type == "article" && category in ["Anime", "Manga", "Ga
   "imageAlt": coalesce(mainImage.alt, externalImageAlt),
   "imagePosition": select(defined(mainImage.hotspot) => string(mainImage.hotspot.x * 100) + "% " + string(mainImage.hotspot.y * 100) + "%", "center"),
   "author": coalesce(author->name, "Panelraid Editors"),
+  "authorImage": select(defined(author->avatar.asset) => author->avatar.asset->url + "?w=96&h=96&fit=crop&crop=focalpoint&auto=format&q=85" + select(defined(author->avatar.hotspot) => "&fp-x=" + string(author->avatar.hotspot.x) + "&fp-y=" + string(author->avatar.hotspot.y), "")),
   publishedAt, readingMinutes, featured,
   "body": body[]{..., _type == "image" => {
     "url": asset->url + "?w=1200&auto=format&fit=max&q=85",

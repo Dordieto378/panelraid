@@ -21,7 +21,7 @@ const date = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', y
 const structuredData = {
   '@context': 'https://schema.org', '@type': 'Article', headline: article.title,
   description: article.excerpt, image: [new URL(article.image, Astro.site).href],
-  datePublished: article.publishedAt, author: { '@type': 'Person', name: article.author },
+  datePublished: article.publishedAt, author: { '@type': 'Person', name: article.author, ...(article.authorImage ? { image: article.authorImage } : {}) },
   publisher: { '@type': 'Organization', name: 'Panelraid', logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', Astro.site).href } },
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
 };
@@ -30,10 +30,10 @@ const structuredData = {
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />
   <div class="container article-page">
     <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><Icon name="chevron" size={10} /><a href={`/category/${article.category.toLowerCase()}/`}>{article.category}</a><Icon name="chevron" size={10} /><span>Story</span></nav>
-    <header class="article-header"><a class="category-label" href={`/category/${article.category.toLowerCase()}/`}>{article.category}</a><h1>{article.title}</h1><p class="article-deck">{article.excerpt}</p><div class="article-metadata"><span class="author-avatar" aria-hidden="true">{article.author.split(' ').map(n => n[0]).slice(0, 2).join('')}</span><span class="article-author">{article.author}</span><span>·</span><time datetime={article.publishedAt}>{date}</time><span>·</span><span>{article.readingMinutes} min read</span></div></header>
+    <header class="article-header"><a class="category-label" href={`/category/${article.category.toLowerCase()}/`}>{article.category}</a><h1>{article.title}</h1><p class="article-deck">{article.excerpt}</p><div class="article-metadata">{article.authorImage ? <img class="author-avatar" src={article.authorImage} alt="" width="48" height="48" loading="lazy" decoding="async" /> : <span class="author-avatar" aria-hidden="true">{article.author.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>}<span class="article-author">{article.author}</span><span>·</span><time datetime={article.publishedAt}>{date}</time><span>·</span><span>{article.readingMinutes} min read</span></div></header>
     <img class="article-cover" src={article.image} srcset={imageSrcSet(article.image)} sizes="(max-width: 1320px) 94vw, 1240px" alt={article.imageAlt} width="1240" height="620" fetchpriority="high" decoding="async" style={{ objectPosition: article.imagePosition }} />
     <p class="article-caption">{usingSampleContent ? 'Promotional artwork used for this demo. Rights belong to the respective owners.' : article.imageAlt}</p>
-    <div class="article-content-layout"><div>{usingSampleContent && <p class="article-demo-notice">DEMO STORY · This fictional sample is for the Panelraid preview.</p>}<div class="prose"><EditorialBody body={article.body} /></div><ArticleTools client:visible slug={article.slug} /></div><aside><Newsletter compact /></aside></div>
+    <div class="article-content-layout"><div>{usingSampleContent && <p class="article-demo-notice">DEMO STORY · This fictional sample is for the Panelraid preview.</p>}<div class="prose"><EditorialBody body={article.body} /></div><ArticleTools client:visible /></div><aside><Newsletter compact /></aside></div>
     {related.length > 0 && <section class="related-section" aria-labelledby="related-heading"><div class="section-heading"><h2 id="related-heading"><span class="heading-slash"></span> Keep exploring</h2><a href={`/category/${article.category.toLowerCase()}/`} class="text-link">More {article.category.toLowerCase()} <Icon name="arrow" size={16} /></a></div><div class="related-grid" style="margin-top:24px">{related.map(a => <ArticleCard article={a} />)}</div></section>}
   </div>
 </BaseLayout>

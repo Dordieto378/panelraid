@@ -60,7 +60,6 @@ export default function Navigation({
             aria-current={active === label ? "page" : undefined}
           >
             {label}
-            {label === "The Loot" && <span className="nav-new">NEW</span>}
           </a>
         ))}
       </nav>

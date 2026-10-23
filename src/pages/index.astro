@@ -18,7 +18,6 @@ const formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'long', month:
     {featured.length > 0 && <section class="featured-grid" aria-label="Featured stories">
       {featured.map((article, i) => <article class:list={['feature-card', { 'feature-main': i === 0 }]}>
         <a href={articleUrl(article)} class="feature-link"><img src={article.image} srcset={imageSrcSet(article.image)} sizes={i === 0 ? '(max-width:760px) 95vw, 65vw' : '(max-width:760px) 46vw, 32vw'} alt={article.imageAlt} width={i === 0 ? 1200 : 650} height={i === 0 ? 760 : 420} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} style={{ objectPosition: article.imagePosition }} /><div class="feature-shade"></div>
-          {i === 0 && <span class="feature-kicker"><span></span> FEATURED EDITORIAL</span>}
           <div class="feature-content"><span class="feature-category">{article.category}{i === 0 && <span> · OPINION & ANALYSIS</span>}</span><h2>{article.title}</h2>{i === 0 && <p>{article.excerpt}</p>}<div class="feature-byline"><span>{article.author}</span><span class="feature-byline-dot">·</span><span><Icon name="clock" size={12} /> {article.readingMinutes} min read</span></div></div><span class="feature-arrow"><Icon name="arrow" size={i === 0 ? 24 : 21} /></span>
         </a>
       </article>)}

@@ -188,15 +188,6 @@ button {
   left: 0;
   right: 0;
 }
-.nav-new {
-  color: #1d6cad;
-  background: #eaf5fc;
-  font-size: 7px;
-  padding: 2px 4px;
-  border-radius: 2px;
-  font-weight: 800;
-  letter-spacing: 0.3px;
-}
 .nav-actions {
   display: flex;
   align-items: center;
@@ -1229,6 +1220,7 @@ button {
   color: #276a9f;
   font-weight: 700;
   font-size: 9px;
+  object-fit: cover;
 }
 .article-author {
   color: #244d77;
@@ -1551,9 +1543,6 @@ button {
     font-size: 11px;
   }
   .newsletter-nav {
-    display: none;
-  }
-  .nav-new {
     display: none;
   }
   .featured-grid {

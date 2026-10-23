@@ -19,6 +19,7 @@ export interface Article {
   imageAlt: string;
   imagePosition?: string;
   author: string;
+  authorImage?: string;
   publishedAt: string;
   readingMinutes: number;
   featured?: boolean;
